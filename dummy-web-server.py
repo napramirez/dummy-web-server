@@ -25,8 +25,12 @@ class MyServer(BaseHTTPRequestHandler):
 			post_data = self.rfile.read(content_length) # <--- Gets the data itself
 			print( "POST data: ", post_data.decode("utf-8") )
 
+		response = bytes(httpPostResponseBody, "utf-8")
+
 		self.send_response(int(httpPostResponseCode))
-		self.wfile.write(bytes(httpPostResponseBody, "utf-8"))
+		self.send_header("Content-Length", str(len(response)))
+		self.end_headers()
+		self.wfile.write(response)
 
 myServer = HTTPServer((hostName, hostPort), MyServer)
 print(time.asctime(), "Server Starts - %s:%s" % (hostName, hostPort))
