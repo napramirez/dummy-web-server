@@ -11,6 +11,8 @@ hostPort = int(os.getenv("HTTP_PORT", 8080))
 httpGetResponseBody = os.getenv("HTTP_GET_RESPONSE_BODY", "HTTP OK")
 httpPostResponseBody = os.getenv("HTTP_POST_RESPONSE_BODY", "HTTP Accepted")
 
+httpPostResponseCode = os.getenv("HTTP_POST_RESPONSE_CODE", "202")
+
 class MyServer(BaseHTTPRequestHandler):
 
 	def do_GET(self):
@@ -23,7 +25,7 @@ class MyServer(BaseHTTPRequestHandler):
 			post_data = self.rfile.read(content_length) # <--- Gets the data itself
 			print( "POST data: ", post_data.decode("utf-8") )
 
-		self.send_response(204)
+		self.send_response(int(httpPostResponseCode))
 		self.wfile.write(bytes(httpPostResponseBody, "utf-8"))
 
 myServer = HTTPServer((hostName, hostPort), MyServer)
