@@ -18,8 +18,6 @@ class MyServer(BaseHTTPRequestHandler):
 		self.wfile.write(bytes(httpGetResponseBody, "utf-8"))
 
 	def do_POST(self):
-		print( "Incoming http: ", self.path )
-
 		if self.headers['Content-Length'] is not None:
 			content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
 			post_data = self.rfile.read(content_length) # <--- Gets the data itself
