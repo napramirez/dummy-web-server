@@ -13,6 +13,8 @@ httpPostResponseBody = os.getenv("HTTP_POST_RESPONSE_BODY", "HTTP Accepted")
 
 httpPostResponseCode = os.getenv("HTTP_POST_RESPONSE_CODE", "202")
 
+httpPostResponseHeaderLocation = os.getenv("HTTP_POST_RESPONSE_HEADER_LOCATION")
+
 class MyServer(BaseHTTPRequestHandler):
 
 	def do_GET(self):
@@ -29,6 +31,10 @@ class MyServer(BaseHTTPRequestHandler):
 
 		self.send_response(int(httpPostResponseCode))
 		self.send_header("Content-Length", str(len(response)))
+
+		if httpPostResponseHeaderLocation:
+			self.send_header("Location", httpPostResponseHeaderLocation)
+
 		self.end_headers()
 		self.wfile.write(response)
 
